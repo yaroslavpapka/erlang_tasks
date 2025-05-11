@@ -1,0 +1,9 @@
+{application, raindrops,
+ [
+  {description, "Raindrops solution"},
+  {vsn, "0.1.0"},
+  {modules, [raindrops]},
+  {registered, []},
+  {applications, [kernel, stdlib]},
+  {mod, []}
+ ]}.
