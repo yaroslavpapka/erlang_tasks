@@ -1,0 +1,32 @@
+name: Erlang Tasks CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Erlang
+      uses: erlef/setup-beam@v1
+      with:
+        otp-version: '26.2'
+        rebar3-version: '3.23.0'
+
+    - name: Run tests for all labs
+      run: |
+        for dir in */ ; do
+          if [ -f "$dir/rebar.config" ]; then
+            echo "Running tests in $dir"
+            cd "$dir"
+            rebar3 compile && rebar3 eunit || exit 1
+            cd ..
+          fi
+        done
